@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detection Results</title>
+</head>
+<body>
+    <h1>Detection Results for Video {{ video.id }}</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Confidence</th>
+                <th>Bounding Box</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detection in detections %}
+            <tr>
+                <td>{{ detection.timestamp }}</td>
+                <td>{{ detection.confidence }}</td>
+                <td>({{ detection.x }}, {{ detection.y }}, {{ detection.width }}, {{ detection.height }})</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        {% if pagination.current > 1 %}
+            <a href="?page={{ pagination.current|add:-1 }}">Previous</a>
+        {% endif %}
+
+        Page {{ pagination.current }} of {{ pagination.pages }}
+
+        {% if pagination.current < pagination.pages %}
+            <a href="?page={{ pagination.current|add:1 }}">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Status</title>
+</head>
+<body>
+    <h1>Video Status</h1>
+    <p>Video ID: {{ video.id }}</p>
+    <p>Status: {{ video.status }}</p>
+    {% if video.processed_at %}
+        <p>Processed at: {{ processed_at }}</p>
+    {% endif %}
+
+    {% if video.status == "completed" %}
+        <a href="{% url 'detection_results' video.id %}">View Results</a>
+    {% endif %}
+</body>
+</html>
