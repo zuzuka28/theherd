@@ -1,40 +1,180 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Detection Results</title>
+    <title>Horse Detection Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #f8f5f0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #5a3921;
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            background-size: 50px;
+            padding-left: 60px;
+            min-height: 50px;
+        }
+
+        .results-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 1px solid #d4c9b8;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th {
+            background-color: #8b6b46;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #d4c9b8;
+        }
+
+        tr:nth-child(even) {
+            background-color: #faf8f5;
+        }
+
+        tr:hover {
+            background-color: #f0ebe4;
+        }
+
+        .confidence-high {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .confidence-medium {
+            color: #ff8f00;
+            font-weight: 600;
+        }
+
+        .confidence-low {
+            color: #c62828;
+            font-weight: 600;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .pagination a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #8b6b46;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background: #6d5336;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .pagination span {
+            color: #7a5c3c;
+            font-weight: 500;
+        }
+
+        .video-id-badge {
+            display: inline-block;
+            background-color: #5a3921;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        footer {
+            margin-top: 40px;
+            border-top: 1px solid #d4c9b8;
+            padding-top: 20px;
+            text-align: center;
+            color: #7a5c3c;
+            font-size: 0.9em;
+        }
+
+        h1:hover {
+            animation: horseTrot 0.8s infinite;
+        }
+    </style>
 </head>
 <body>
-    <h1>Detection Results for Video {{ video.id }}</h1>
+    <h1>Horse Detection Results <span class="video-id-badge">Video #{{ video.id }}</span></h1>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Timestamp</th>
-                <th>Confidence</th>
-                <th>Bounding Box</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for detection in detections %}
-            <tr>
-                <td>{{ detection.timestamp }}</td>
-                <td>{{ detection.confidence }}</td>
-                <td>({{ detection.x }}, {{ detection.y }}, {{ detection.width }}, {{ detection.height }})</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="results-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Confidence</th>
+                    <th>Bounding Box</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detection in detections %}
+                <tr>
+                    <td>{{ detection.timestamp }}</td>
+                    <td class="{% if detection.confidence >= 0.8 %}confidence-high{% elif detection.confidence >= 0.5 %}confidence-medium{% else %}confidence-low{% endif %}">
+                        {{ detection.confidence|floatformat:2 }}
+                    </td>
+                    <td>
+                        <span style="font-family: monospace;">
+                            ({{ detection.x|floatformat }}, {{ detection.y|floatformat }},
+                            {{ detection.width|floatformat }}, {{ detection.height|floatformat }})
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <div class="pagination">
         {% if pagination.current > 1 %}
             <a href="?page={{ pagination.current|add:-1 }}">Previous</a>
         {% endif %}
 
-        Page {{ pagination.current }} of {{ pagination.pages }}
+        <span>Page {{ pagination.current }} of {{ pagination.pages }}</span>
 
         {% if pagination.current < pagination.pages %}
             <a href="?page={{ pagination.current|add:1 }}">Next</a>
         {% endif %}
     </div>
+
+    <footer>
+        <p>Equine Behavior Tracking System &copy; {% now "Y" %}</p>
+    </footer>
 </body>
 </html>

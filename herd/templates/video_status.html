@@ -1,18 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Video Status</title>
+    <title>Horse Video Status</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #f8f5f0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #5a3921;
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            background-size: 50px;
+            padding-left: 60px;
+            min-height: 50px;
+        }
+
+        .status-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 1px solid #d4c9b8;
+            margin-bottom: 30px;
+        }
+
+        .status-item {
+            margin: 20px 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-label {
+            color: #7a5c3c;
+            font-weight: 500;
+            min-width: 120px;
+        }
+
+        .status-value {
+            color: #5a3921;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-processing {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+
+        .status-error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #8b6b46;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            background: #6d5336;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .timestamp {
+            color: #7a5c3c;
+            font-size: 0.9em;
+            margin-top: 5px;
+            padding-left: 120px;
+        }
+
+        footer {
+            margin-top: 40px;
+            border-top: 1px solid #d4c9b8;
+            padding-top: 20px;
+            text-align: center;
+            color: #7a5c3c;
+            font-size: 0.9em;
+        }
+
+        h1:hover {
+            animation: horseTrot 0.8s infinite;
+        }
+    </style>
 </head>
 <body>
-    <h1>Video Status</h1>
-    <p>Video ID: {{ video.id }}</p>
-    <p>Status: {{ video.status }}</p>
-    {% if video.processed_at %}
-        <p>Processed at: {{ processed_at }}</p>
-    {% endif %}
+    <h1>Horse Video Analysis Status</h1>
+
+    <div class="status-card">
+        <div class="status-item">
+            <span class="status-label">Video ID:</span>
+            <span class="status-value">{{ video.id }}</span>
+        </div>
+
+        <div class="status-item">
+            <span class="status-label">Status:</span>
+            <span class="status-value {% if video.status == 'completed' %}status-completed{% elif video.status == 'processing' %}status-processing{% else %}status-error{% endif %}">
+                {{ video.status|title }}
+            </span>
+        </div>
+
+        {% if video.processed_at %}
+        <div class="status-item">
+            <span class="status-label">Processed at:</span>
+            <span class="timestamp">{{ video.processed_at|date:"Y-m-d H:i" }}</span>
+        </div>
+        {% endif %}
+    </div>
 
     {% if video.status == "completed" %}
-        <a href="{% url 'detection_results' video.id %}">View Results</a>
+    <div style="text-align: center;">
+        <a href="{% url 'detection_results' video.id %}" class="btn">View Analysis Results</a>
+    </div>
     {% endif %}
+
+    <footer>
+        <p>Equine Behavior Tracking System &copy; {% now "Y" %}</p>
+    </footer>
 </body>
 </html>

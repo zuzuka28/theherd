@@ -1,13 +1,127 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Processing Video</title>
+    <title>Processing Horse Video</title>
     <meta http-equiv="refresh" content="5">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #f8f5f0;
+            color: #333;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        h1 {
+            color: #5a3921;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            background: url('https://cdn-icons-png.flaticon.com/512/2973/2973627.png') no-repeat center top;
+            background-size: 50px;
+            padding-top: 60px;
+        }
+
+        .status-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 1px solid #d4c9b8;
+            margin: 30px 0;
+        }
+
+        .status-item {
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+
+        .status-label {
+            color: #7a5c3c;
+            font-weight: 500;
+            display: inline-block;
+            min-width: 120px;
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .status-value {
+            color: #5a3921;
+            font-weight: 600;
+        }
+
+        .loading {
+            margin: 40px 0;
+        }
+
+        .loading-text {
+            color: #7a5c3c;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #8b6b46;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            margin-top: 40px;
+            border-top: 1px solid #d4c9b8;
+            padding-top: 20px;
+            color: #7a5c3c;
+            font-size: 0.9em;
+        }
+
+        /* Анимация для заголовка */
+        @keyframes horseTrot {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        h1:hover {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/2973/2973635.png');
+            animation: horseTrot 0.8s infinite;
+        }
+    </style>
 </head>
 <body>
-    <h1>Video is being processed</h1>
-    <p>Video ID: {{ video.id }}</p>
-    <p>Current status: {{ video.status }}</p>
-    <p>Please wait, this page will refresh automatically...</p>
+    <h1>Analyzing Horse Video</h1>
+
+    <div class="status-card">
+        <div class="status-item">
+            <span class="status-label">Video ID:</span>
+            <span class="status-value">{{ video.id }}</span>
+        </div>
+
+        <div class="status-item">
+            <span class="status-label">Current Status:</span>
+            <span class="status-value">{{ video.status|title }}</span>
+        </div>
+    </div>
+
+    <div class="loading">
+        <div class="spinner"></div>
+        <p class="loading-text">Processing video footage. Please wait...</p>
+        <p class="loading-text">This page will refresh automatically in 5 seconds</p>
+    </div>
+
+    <footer>
+        <p>Equine Behavior Tracking System &copy; {% now "Y" %}</p>
+    </footer>
 </body>
 </html>
