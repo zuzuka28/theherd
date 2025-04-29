@@ -1,34 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Upload Horse Video</title>
+{% extends "base.html" %}
+
+{% block title %}Upload Horse Video{% endblock %}
+{% block heading %}Upload Horse Video{% endblock %}
+
+{% block extra_head %}
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 30px;
-            background-color: #f8f5f0;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        h1 {
-            color: #5a3921;
-            text-align: center;
-            font-size: 2.2em;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            background-size: 50px;
-            padding-top: 60px;
-        }
-
-        form {
+        .upload-form {
             background-color: white;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
             border: 1px solid #d4c9b8;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .file-input {
@@ -64,7 +48,7 @@
             border-color: #6d5336;
         }
 
-        button[type="submit"] {
+        .upload-btn {
             display: block;
             width: 100%;
             padding: 14px;
@@ -80,13 +64,13 @@
             margin-top: 25px;
         }
 
-        button[type="submit"]:hover {
+        .upload-btn:hover {
             background: #6d5336;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
-        .error {
+        .error-message {
             color: #c13c3c;
             background-color: #fde8e8;
             padding: 15px;
@@ -94,40 +78,23 @@
             border-left: 4px solid #c13c3c;
             margin-bottom: 25px;
             font-weight: 500;
-        }
-
-        footer {
-            margin-top: 40px;
-            border-top: 1px solid #d4c9b8;
-            padding-top: 20px;
-            text-align: center;
-            color: #7a5c3c;
-            font-size: 0.9em;
-        }
-
-        h1:hover {
-            animation: horseTrot 0.8s infinite;
+            max-width: 700px;
+            margin: 0 auto 25px;
         }
     </style>
-</head>
-<body>
-    <h1>Upload Horse Video</h1>
+{% endblock %}
 
+{% block content %}
     {% if error %}
-        <div class="error">{{ error }}</div>
+        <div class="error-message">{{ error }}</div>
     {% endif %}
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" class="upload-form">
         {% csrf_token %}
         <div class="file-input">
             <label for="video">Select horse video file:</label>
             <input type="file" id="video" name="video" accept="video/*" required>
         </div>
-        <button type="submit">Analyze Video</button>
+        <button type="submit" class="upload-btn">Analyze Video</button>
     </form>
-
-    <footer>
-        <p>Equine Behavior Tracking System &copy; {% now "Y" %}</p>
-    </footer>
-</body>
-</html>
+{% endblock %}

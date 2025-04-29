@@ -1,116 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Horse Observation System</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f5f0;
-            color: #333;
-            line-height: 1.6;
-        }
+{% extends "base.html" %}
 
-        h1 {
-            color: #5a3921;
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            background-size: 50px;
-            padding-left: 60px;
-            min-height: 50px;
-        }
+{% block title %}Home - Horse Observation System{% endblock %}
+{% block heading %}Horse Observation System{% endblock %}
 
-        .card {
-            border: 1px solid #d4c9b8;
-            padding: 25px;
-            margin: 20px 0;
-            border-radius: 8px;
-            background-color: white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .card h2 {
-            color: #7a5c3c;
-            margin-top: 0;
-            border-bottom: 1px dashed #d4c9b8;
-            padding-bottom: 10px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 20px;
-            background: #8b6b46;
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .btn:hover {
-            background: #6d5336;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-
-        ul {
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        li a {
-            color: #8b6b46;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        li a:hover {
-            text-decoration: underline;
-            color: #6d5336;
-        }
-
-        footer {
-            margin-top: 40px;
-            border-top: 1px solid #d4c9b8;
-            padding-top: 20px;
-            text-align: center;
-            color: #7a5c3c;
-            font-size: 0.9em;
-        }
-
-        @keyframes horseTrot {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0); }
-        }
-
-        h1:hover {
-            animation: horseTrot 0.8s infinite;
-        }
-
-    </style>
-</head>
-<body>
-    <h1>Horse Observation System</h1>
-
+{% block content %}
     <div class="card">
         <h2>Upload New Video</h2>
         <p>Upload video footage of horses for behavior analysis and tracking</p>
@@ -132,9 +25,4 @@
         </ul>
     </div>
     {% endif %}
-
-    <footer>
-        <p>Equine Behavior Tracking System &copy; {% now "Y" %}</p>
-    </footer>
-</body>
-</html>
+{% endblock %}

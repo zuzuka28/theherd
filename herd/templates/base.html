@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Horse Observation System{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f5f0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        nav {
+            background-color: #5a3921;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            flex: 1;
+            text-align: center;
+        }
+
+        nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 10px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #7a5c3c;
+        }
+
+        h1 {
+            color: #5a3921;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            padding-left: 60px;
+            min-height: 50px;
+        }
+
+        .card {
+            border: 1px solid #d4c9b8;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #7a5c3c;
+            margin-top: 0;
+            border-bottom: 1px dashed #d4c9b8;
+            padding-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #8b6b46;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            background: #6d5336;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        li a {
+            color: #8b6b46;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+            color: #6d5336;
+        }
+
+        footer {
+            margin-top: 40px;
+            border-top: 1px solid #d4c9b8;
+            padding-top: 20px;
+            text-align: center;
+            color: #7a5c3c;
+            font-size: 0.9em;
+        }
+
+        h1:hover {
+        }
+    </style>
+
+    {% block extra_head %}
+    {% endblock %}
+
+</head>
+<body>
+    <h1>{% block heading %}Horse Observation System{% endblock %}</h1>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Home</a></li>
+            <li><a href="{% url 'video_upload' %}" {% if request.resolver_match.url_name == 'video_upload' %}class="active"{% endif %}>Upload Video</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Equine Behavior Tracking System &copy; {% now "Y" %}</p>
+    </footer>
+</body>
+</html>

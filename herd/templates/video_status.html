@@ -1,29 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Horse Video Status</title>
+{% extends "base.html" %}
+
+{% block title %}Horse Video Status{% endblock %}
+{% block heading %}Horse Video Analysis Status{% endblock %}
+
+{% block extra_head %}
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 30px;
-            background-color: #f8f5f0;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        h1 {
-            color: #5a3921;
-            text-align: center;
-            font-size: 2.2em;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            background-size: 50px;
-            padding-left: 60px;
-            min-height: 50px;
-        }
-
         .status-card {
             background-color: white;
             padding: 30px;
@@ -68,7 +49,7 @@
             color: #c62828;
         }
 
-        .btn {
+        .status-btn {
             display: inline-block;
             padding: 12px 25px;
             background: #8b6b46;
@@ -79,9 +60,10 @@
             transition: all 0.3s ease;
             margin-top: 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
-        .btn:hover {
+        .status-btn:hover {
             background: #6d5336;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -93,24 +75,10 @@
             margin-top: 5px;
             padding-left: 120px;
         }
-
-        footer {
-            margin-top: 40px;
-            border-top: 1px solid #d4c9b8;
-            padding-top: 20px;
-            text-align: center;
-            color: #7a5c3c;
-            font-size: 0.9em;
-        }
-
-        h1:hover {
-            animation: horseTrot 0.8s infinite;
-        }
     </style>
-</head>
-<body>
-    <h1>Horse Video Analysis Status</h1>
+{% endblock %}
 
+{% block content %}
     <div class="status-card">
         <div class="status-item">
             <span class="status-label">Video ID:</span>
@@ -134,12 +102,7 @@
 
     {% if video.status == "completed" %}
     <div style="text-align: center;">
-        <a href="{% url 'detection_results' video.id %}" class="btn">View Analysis Results</a>
+        <a href="{% url 'detection_results' video.id %}" class="status-btn">View Analysis Results</a>
     </div>
     {% endif %}
-
-    <footer>
-        <p>Equine Behavior Tracking System &copy; {% now "Y" %}</p>
-    </footer>
-</body>
-</html>
+{% endblock %}
