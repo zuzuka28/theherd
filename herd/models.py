@@ -10,8 +10,10 @@ class Video(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    video_file = models.FileField(upload_to="uploads/%Y/%m/%d")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="uploaded")
+    source_file = models.FileField(upload_to="media/uploads/%Y/%m/%d")
+    processed_file = models.FileField(upload_to="media/processed/%Y/%m/%d")
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="uploaded")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     processed_at = models.DateTimeField(null=True, blank=True)
 
@@ -23,6 +25,7 @@ class Detection(models.Model):
     )
     timestamp = models.FloatField()
     confidence = models.FloatField()
+    frame = models.IntegerField()
     x = models.FloatField()
     y = models.FloatField()
     width = models.FloatField()

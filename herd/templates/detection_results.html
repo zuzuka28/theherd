@@ -138,6 +138,7 @@
             <thead>
                 <tr>
                     <th>Timestamp</th>
+                    <th>Frame</th>
                     <th>Confidence</th>
                     <th>Bounding Box</th>
                 </tr>
@@ -146,6 +147,7 @@
                 {% for detection in detections %}
                 <tr>
                     <td>{{ detection.timestamp }}</td>
+                    <td> {{ detection.frame }} </td>
                     <td class="{% if detection.confidence >= 0.8 %}confidence-high{% elif detection.confidence >= 0.5 %}confidence-medium{% else %}confidence-low{% endif %}">
                         {{ detection.confidence|floatformat:2 }}
                     </td>

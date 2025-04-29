@@ -16,7 +16,7 @@ class VideoUploadView(View):
             return render(request, self.template_name, {"error": "No video file"})
 
         video = Video.objects.create(
-            video_file=request.FILES["video"], status="uploaded"
+            source_file=request.FILES["video"], status="uploaded"
         )
         process_video_detections.delay(video.id)
 
