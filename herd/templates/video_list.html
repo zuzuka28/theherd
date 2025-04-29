@@ -54,7 +54,6 @@
 <div class="card">
     <h2>Uploaded Videos</h2>
 
-    <!-- Фильтр по статусу с автоматической отправкой -->
     <form method="get" class="status-filter" id="statusForm">
         <select name="status" onchange="document.getElementById('statusForm').submit()">
             <option value="">All Statuses</option>
@@ -88,18 +87,20 @@
                             {{ video.get_status_display }}
                         </span>
                     </td>
-                    <td style="padding: 12px;">
+                    <td style="padding: 12px; display: flex; gap: 4px;">
                         {% if video.status == 'completed' and video.processed_file %}
                             <a href="{{ video.processed_file.url }}" class="btn" download>Download Processed</a>
                         {% endif %}
-                        <a href="{{ video.source_file.url }}" class="btn" download style="background-color: #6d5336;">Download Original</a>
+                        <a href="{{ video.source_file.url }}" class="btn" download >Download Original</a>
+                        {% if video.status == 'completed' and video.processed_file %}
+                            <a href="{% url 'detection_results' video.id %}" class="btn" style="background-color: #6d5336;">View Analysis Results</a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <!-- Пагинация с сохранением фильтра -->
         <div class="pagination">
             {% if videos.has_previous %}
                 <a href="?page=1{% if status_filter %}&status={{ status_filter }}{% endif %}">&laquo; first</a>

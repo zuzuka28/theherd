@@ -3,9 +3,11 @@
 <head>
     <title>{% block title %}Horse Observation System{% endblock %}</title>
     <style>
+        *{box-sizing:border-box;}
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f8f5f0;
@@ -13,10 +15,26 @@
             line-height: 1.6;
         }
 
+        .page-content {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 30px;
+        }
+
+        .main-content {
+            grid-column: 1;
+        }
+
+        .sidebar {
+            grid-column: 2;
+            margin: 20px 0;
+        }
+
         nav {
             background-color: #5a3921;
             border-radius: 5px;
             margin-bottom: 30px;
+            grid-column: 1 / -1;
         }
 
         nav ul {
@@ -126,31 +144,116 @@
             font-size: 0.9em;
         }
 
-        h1:hover {
+
+        .sidebar-card {
+            border: 1px solid #d4c9b8;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .sidebar-card h3 {
+            color: #7a5c3c;
+            margin-top: 0;
+            border-bottom: 1px dashed #d4c9b8;
+            padding-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .sidebar-video-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-video-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-video-list li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-video-list a {
+            color: #8b6b46;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+        }
+
+        .sidebar-video-list a:hover {
+            color: #6d5336;
+            text-decoration: underline;
+        }
+
+        .video-meta {
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                grid-column: 1;
+                order: 2;
+            }
+            .main-content {
+                grid-column: 1;
+                order: 1;
+            }
         }
     </style>
 
     {% block extra_head %}
     {% endblock %}
-
 </head>
 <body>
-    <h1>{% block heading %}Horse Observation System{% endblock %}</h1>
+    <h1 style="margin:0 auto;">{% block heading %}Horse Observation System{% endblock %}</h1>
 
-<nav>
-    <ul>
-        <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Home</a></li>
-        <li><a href="{% url 'video_upload' %}" {% if request.resolver_match.url_name == 'video_upload' %}class="active"{% endif %}>Upload Video</a></li>
-        <li><a href="{% url 'video_list' %}" {% if request.resolver_match.url_name == 'video_list' %}class="active"{% endif %}>Video List</a></li>
-    </ul>
-</nav>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Home</a></li>
+            <li><a href="{% url 'video_upload' %}" {% if request.resolver_match.url_name == 'video_upload' %}class="active"{% endif %}>Upload Video</a></li>
+            <li><a href="{% url 'video_list' %}" {% if request.resolver_match.url_name == 'video_list' %}class="active"{% endif %}>Video List</a></li>
+        </ul>
+    </nav>
 
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+    <div class="page-content">
+      <main class="main-content">
+          {% block content %}
+          {% endblock %}
+      </main>
 
-    <footer>
+      <aside class="sidebar">
+          {% block sidebar %}
+              {% if recent_videos %}
+              <div class="sidebar-card">
+                  <h3>Recent Videos</h3>
+                  <ul class="sidebar-video-list">
+                      {% for video in recent_videos %}
+                      <li>
+                          <a href="{% url 'video_status' video.id %}">
+                              Session #{{ video.id }}
+                              <span class="video-meta">
+                                  {{ video.uploaded_at|date:"M d, H:i" }} · {{ video.get_status_display }}
+                              </span>
+                          </a>
+                      </li>
+                      {% endfor %}
+                  </ul>
+              </div>
+              {% endif %}
+          {% endblock %}
+      </aside>
+    </div>
+
+    <footer style="grid-column: 1 / -1;">
         <p>Equine Behavior Tracking System &copy; {% now "Y" %}</p>
     </footer>
 </body>

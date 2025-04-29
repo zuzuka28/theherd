@@ -5,24 +5,6 @@
 
 {% block content %}
     <div class="card">
-        <h2>Upload New Video</h2>
-        <p>Upload video footage of horses for behavior analysis and tracking</p>
-        <a href="{% url 'video_upload' %}" class="btn">Upload Horse Video</a>
+        <p>We Love Horses</p>
     </div>
-
-    {% if recent_videos %}
-    <div class="card">
-        <h2>Recently Analyzed Videos</h2>
-        <ul>
-            {% for video in recent_videos %}
-            <li>
-                <a href="{% url 'video_status' video.id %}">
-                    Session #{{ video.id }} - {{ video.status|title }}
-                </a>
-                ({{ video.uploaded_at|date:"Y-m-d H:i" }})
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
 {% endblock %}
