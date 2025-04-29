@@ -1,15 +1,14 @@
 from django.urls import path
 from .views import (
-    HomeView,
     VideoList,
     VideoUploadView,
     VideoStatusView,
+    VideoReportPDFView,
     DetectionResultsView,
 )
 
 urlpatterns = [
-    path("", HomeView.as_view(), name="home"),
-    path("/", VideoList.as_view(), name="video_list"),
+    path("", VideoList.as_view(), name="video_list"),
     path(
         "upload/",
         VideoUploadView.as_view(),
@@ -24,5 +23,10 @@ urlpatterns = [
         "results/<int:video_id>/",
         DetectionResultsView.as_view(),
         name="detection_results",
+    ),
+    path(
+        "results/<int:video_id>/report/",
+        VideoReportPDFView.as_view(),
+        name="video_report_pdf",
     ),
 ]
