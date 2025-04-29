@@ -27,6 +27,6 @@ urlpatterns = [
     path(
         "results/<int:video_id>/report/",
         VideoReportPDFView.as_view(),
-        name="video_report_pdf",
+        name="detection_results_pdf",
     ),
 ]

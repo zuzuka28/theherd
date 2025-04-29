@@ -88,12 +88,11 @@
                         </span>
                     </td>
                     <td style="padding: 12px; display: flex; gap: 4px;">
-                        {% if video.status == 'completed' and video.processed_file %}
-                            <a href="{{ video.processed_file.url }}" class="btn" download>Download Processed</a>
-                        {% endif %}
                         <a href="{{ video.source_file.url }}" class="btn" download >Download Original</a>
                         {% if video.status == 'completed' and video.processed_file %}
+                            <a href="{{ video.processed_file.url }}" class="btn" download style="background-color: #6d5336;">Download Processed</a>
                             <a href="{% url 'detection_results' video.id %}" class="btn" style="background-color: #6d5336;">View Analysis Results</a>
+                            <a href="{% url 'detection_results_pdf' video.id %}" class="btn" style="background-color: #6d5336;">Download Analysis Report</a>
                         {% endif %}
                     </td>
                 </tr>
