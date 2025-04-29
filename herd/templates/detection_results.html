@@ -128,10 +128,57 @@
         h1:hover {
             animation: horseTrot 0.8s infinite;
         }
+
+        .video-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .video-wrapper {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 1px solid #d4c9b8;
+        }
+
+        .video-wrapper h2 {
+            color: #5a3921;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 4px;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <h1>Horse Detection Results <span class="video-id-badge">Video #{{ video.id }}</span></h1>
+
+    <div class="video-container">
+        <div class="video-wrapper">
+            <h2>Original Video</h2>
+            <video controls>
+                <source src="{{ video.source_file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-wrapper">
+            <h2>Annotated Video</h2>
+            <video controls>
+                <source src="{{ video.processed_file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
 
     <div class="results-container">
         <table>

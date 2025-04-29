@@ -10,8 +10,8 @@ class Video(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    source_file = models.FileField(upload_to="media/uploads/%Y/%m/%d")
-    processed_file = models.FileField(upload_to="media/processed/%Y/%m/%d")
+    source_file = models.FileField(upload_to="uploads/%Y/%m/%d")
+    processed_file = models.FileField(upload_to="processed/%Y/%m/%d")
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default="uploaded")
     uploaded_at = models.DateTimeField(auto_now_add=True)

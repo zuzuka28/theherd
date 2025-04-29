@@ -131,3 +131,6 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "UTC"
 
 API_BASE_URL = "http://localhost:8000/api"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
