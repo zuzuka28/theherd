@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Video List - Horse Observation System{% endblock %}
+{% block heading %}Video List{% endblock %}
+
+{% block extra_head %}
+<style>
+    .status-filter {
+        margin-bottom: 20px;
+    }
+    .status-filter select {
+        padding: 10px;
+        border: 1px solid #d4c9b8;
+        border-radius: 4px;
+        background-color: white;
+        color: #5a3921;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .status-filter select:hover {
+        border-color: #8b6b46;
+    }
+    .status-filter select:focus {
+        outline: none;
+        border-color: #5a3921;
+        box-shadow: 0 0 0 2px rgba(90, 57, 33, 0.2);
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 5px;
+    }
+    .pagination a, .pagination span {
+        padding: 8px 12px;
+        border: 1px solid #d4c9b8;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #5a3921;
+    }
+    .pagination a:hover {
+        background-color: #f2e9dc;
+    }
+    .pagination .current {
+        background-color: #5a3921;
+        color: white;
+        border-color: #5a3921;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Uploaded Videos</h2>
+
+    <!-- Фильтр по статусу с автоматической отправкой -->
+    <form method="get" class="status-filter" id="statusForm">
+        <select name="status" onchange="document.getElementById('statusForm').submit()">
+            <option value="">All Statuses</option>
+            {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if videos %}
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #f2e9dc;">
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #d4c9b8;">ID</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #d4c9b8;">Uploaded At</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #d4c9b8;">Status</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #d4c9b8;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in videos %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 12px;">{{ video.id }}</td>
+                    <td style="padding: 12px;">{{ video.uploaded_at|date:"Y-m-d H:i" }}</td>
+                    <td style="padding: 12px;">
+                        <span style="display: inline-block; padding: 4px 8px; border-radius: 4px;
+                            {% if video.status == 'completed' %}background-color: #e6f7e6; color: #2e7d32;
+                            {% elif video.status == 'processing' %}background-color: #e3f2fd; color: #1565c0;
+                            {% elif video.status == 'failed' %}background-color: #ffebee; color: #c62828;
+                            {% else %}background-color: #f5f5f5; color: #424242;{% endif %}">
+                            {{ video.get_status_display }}
+                        </span>
+                    </td>
+                    <td style="padding: 12px;">
+                        {% if video.status == 'completed' and video.processed_file %}
+                            <a href="{{ video.processed_file.url }}" class="btn" download>Download Processed</a>
+                        {% endif %}
+                        <a href="{{ video.source_file.url }}" class="btn" download style="background-color: #6d5336;">Download Original</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Пагинация с сохранением фильтра -->
+        <div class="pagination">
+            {% if videos.has_previous %}
+                <a href="?page=1{% if status_filter %}&status={{ status_filter }}{% endif %}">&laquo; first</a>
+                <a href="?page={{ videos.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ videos.number }} of {{ videos.paginator.num_pages }}
+            </span>
+
+            {% if videos.has_next %}
+                <a href="?page={{ videos.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}">next</a>
+                <a href="?page={{ videos.paginator.num_pages }}{% if status_filter %}&status={{ status_filter }}{% endif %}">last &raquo;</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No videos found with selected status.</p>
+    {% endif %}
+</div>
+{% endblock %}

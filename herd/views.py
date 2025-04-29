@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Video, Detection
 from .tasks import process_video_detections
 
@@ -61,6 +61,36 @@ class DetectionResultsView(View):
                 "current": page,
             },
         }
+        return render(request, self.template_name, context)
+
+
+class VideoList(View):
+    template_name = "video_list.html"
+
+    def get(self, request):
+        status_filter = request.GET.get("status", "")
+
+        videos = Video.objects.all().order_by("-uploaded_at")
+
+        if status_filter:
+            videos = videos.filter(status=status_filter)
+
+        paginator = Paginator(videos, 10)
+        page = request.GET.get("page")
+
+        try:
+            videos_page = paginator.page(page)
+        except PageNotAnInteger:
+            videos_page = paginator.page(1)
+        except EmptyPage:
+            videos_page = paginator.page(paginator.num_pages)
+
+        context = {
+            "videos": videos_page,
+            "status_filter": status_filter,
+            "status_choices": Video.STATUS_CHOICES,
+        }
+
         return render(request, self.template_name, context)
 
 

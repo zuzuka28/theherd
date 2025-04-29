@@ -137,12 +137,13 @@
 <body>
     <h1>{% block heading %}Horse Observation System{% endblock %}</h1>
 
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Home</a></li>
-            <li><a href="{% url 'video_upload' %}" {% if request.resolver_match.url_name == 'video_upload' %}class="active"{% endif %}>Upload Video</a></li>
-        </ul>
-    </nav>
+<nav>
+    <ul>
+        <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Home</a></li>
+        <li><a href="{% url 'video_upload' %}" {% if request.resolver_match.url_name == 'video_upload' %}class="active"{% endif %}>Upload Video</a></li>
+        <li><a href="{% url 'video_list' %}" {% if request.resolver_match.url_name == 'video_list' %}class="active"{% endif %}>Video List</a></li>
+    </ul>
+</nav>
 
     <main>
         {% block content %}
